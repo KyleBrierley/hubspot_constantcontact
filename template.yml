@@ -34,10 +34,10 @@ Resources:
         GetEvent:
           Type: Api
           Properties:
-            Path: /
-            Method: get
+            Path: /cc
+            Method: post
         PostEvent:
           Type: Api
           Properties:
-            Path: /
+            Path: /hubspot
             Method: post
