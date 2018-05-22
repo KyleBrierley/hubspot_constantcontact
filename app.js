@@ -8,6 +8,8 @@ app.use(bodyParser.json());
 
 const tealium_account = 'beckershealthcare';
 const tealium_profile = 'main';
+const email_prefix = '__beckershealthcare_main__5002_';
+const hub_prefix = '__beckershealthcare_main__5450_';
 const cc_api_key = 'hptvtapen5dyy6zvx6r3bhcf';
 const cc_bearer = '5fab2855-ccbf-4311-9f60-70af61082260';
 
@@ -123,7 +125,7 @@ app.post('/cc', (req, res) => {
       //console.log('103 tealData', tealData);
       tealData['tealium_account'] = tealium_account;
       tealData['tealium_profile'] = tealium_profile;
-      tealData['tealium_visitor_id'] = email_address;
+      tealData['tealium_visitor_id'] = `${email_prefix}${email_address}`;
       tealData['email'] = email_address;
       tealData['tealium_event'] = 'Constant Contact';
       tealData['tealium_datasource'] = '8gqgwq';
@@ -136,10 +138,7 @@ app.post('/cc', (req, res) => {
 });
 
 app.post('/hubspot', (req, res) => {
-  // console.log("116 cons log req", req);
   console.log("117 cons log req.body", req.body);
-  // console.log("cons log event", event);
-  // console.log("event.body", event.body);
   // res.send("res.send(event)", event);
   if (req.body === undefined) {
     res.status(400).send('No message defined!');
@@ -152,6 +151,7 @@ app.post('/hubspot', (req, res) => {
   }
 
   function parsePostData(req) {
+    let hubspot_id = req.body['profile-token'];
     try {
       let postData = {};
       postData.tealium_account = tealium_account;
@@ -159,7 +159,7 @@ app.post('/hubspot', (req, res) => {
       postData.tealium_event = 'Hubspot';
       postData.tealium_datasource = 'mq7gg5';
       // postData.tealium_trace_id = '04072';
-      postData.tealium_visitor_id = req.body['profile-token'];
+      postData.tealium_visitor_id = `${hub_prefix}${hubspot_id}`;
       postData.email = req.body.properties.email.value;
       postData.first_name = req.body.properties.firstname.value;
       postData.last_name = req.body.properties.lastname.value;
