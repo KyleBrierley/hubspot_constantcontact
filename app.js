@@ -170,6 +170,8 @@ app.post('/hubspot', (req, res) => {
       postData.hospital_employee = req.body.properties.are_you_employed_by_a_hospital_health_system_or_other_medical_facility_.value;
       postData.last_submission = req.body['form-submissions'][0]['page-title'];
       postData.submission_title = req.body['form-submissions'][0]['title'];
+      postData.enl_bhr_subscriber = req.body.properties.enl_bhr_subscriber.value;
+      postData.enl_subscriber_via_tealium = req.body.properties.enl_subscriber_via_tealium.value;
       return postData;
     } catch (e) {
       console.log(e);
