@@ -6,13 +6,13 @@ const app = express();
 
 app.use(bodyParser.json());
 
-const tealium_account = 'beckershealthcare';
-const tealium_profile = 'main';
-const email_prefix = '__beckershealthcare_main__5002_';
+const tealium_account = '';
+const tealium_profile = '';
+const email_prefix = '';
 const email_suffix = '__';
-const hub_prefix = '__beckershealthcare_main__5450_';
-const cc_api_key = 'hptvtapen5dyy6zvx6r3bhcf';
-const cc_bearer = '5fab2855-ccbf-4311-9f60-70af61082260';
+const hub_prefix = '';
+const cc_api_key = '';
+const cc_bearer = '';
 
 // Functions -------------
 function cc_get_contact_id(email) {
@@ -158,7 +158,7 @@ app.post('/hubspot', (req, res) => {
       postData.tealium_account = tealium_account;
       postData.tealium_profile = tealium_profile;
       postData.tealium_event = 'Hubspot';
-      postData.tealium_datasource = 'mq7gg5';
+      postData.tealium_datasource = '';
       // postData.tealium_trace_id = '04072';
       postData.tealium_visitor_id = `${email_prefix}${email_value}${email_suffix}`;
       postData.email = req.body.properties.email.value;
