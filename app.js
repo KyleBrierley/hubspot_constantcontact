@@ -35,7 +35,6 @@ function cc_get_contact_id(email) {
           body += chunk;
         });
         res.on('end', () => {
-          console.log("CC Respond Body", body);
           let parsedBody = JSON.parse(body);
           let cc_id = parsedBody.results[0].id;
           resolve(cc_id);
@@ -67,7 +66,6 @@ function cc_get_stats(cc_id) {
           body2 += chunk;
         });
         res.on('end', () => {
-          console.log(`CC Stats: ${body2}`);
           let parsedBody2 = JSON.parse(body2);
           resolve(parsedBody2);
         }).on('error', (e) => reject(e))
@@ -100,7 +98,6 @@ function post_to_tealium(data) {
         console.log('post_to_tealium done!')
       });
     });
-    console.log("line 83, log within post_to_tealium", data);
     post_req.write(JSON.stringify(data));
     post_req.end();
   } catch (e) {
@@ -111,13 +108,10 @@ function post_to_tealium(data) {
 // Application ------------
 
 app.post('/cc', (req, res) => {
-  console.log('line 92 cons log req.body', req.body);
-  console.log('line 93 cons log req.body.email', req.body.email);
   // console.log("event", event);
   // console.log("event.body", event.body);
   // console.log("req", req);
   let email_address = req.body.email;
-  console.log('line 98 email_address', email_address);
   cc_get_contact_id(email_address).then(function(cc_id) {
     return cc_get_stats(cc_id).then(function(parsedBody2) {
       let tealData = Object.assign({}, parsedBody2);
@@ -130,7 +124,6 @@ app.post('/cc', (req, res) => {
       tealData['email'] = email_address;
       tealData['tealium_event'] = 'Constant Contact';
       tealData['tealium_datasource'] = '8gqgwq';
-      console.log('109 tealData', tealData);
       return post_to_tealium(tealData);
     })
   }).catch(function(e) {
@@ -139,15 +132,12 @@ app.post('/cc', (req, res) => {
 });
 
 app.post('/hubspot', (req, res) => {
-  console.log("117 cons log req.body", req.body);
   // res.send("res.send(event)", event);
   if (req.body === undefined) {
     res.status(400).send('No message defined!');
   } else {
-    console.log('124 Inbound Hubspot Request:', req.body);
     res.status(200).send('Success: ' + req.body);
     let data = parsePostData(req);
-    console.log("127 data", data);
     post_to_tealium(data);
   }
 
